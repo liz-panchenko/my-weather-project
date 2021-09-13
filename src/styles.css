@@ -42,8 +42,13 @@ body {
   background-color: #e2faff;
   border-radius: 4px;
   margin: 15px auto;
-  padding: 10px;
+  padding-top: 10px;
   padding-bottom: 30px;
+}
+
+.navbar {
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 h1 {
@@ -162,8 +167,8 @@ form {
 }
 
 .date-details-container {
-  margin: 0 15px 0 5px;
-  padding: 10px 0px;
+  margin: 0 10px;
+  padding: 10px 5px;
   border-width: 2px;
   border-style: solid;
   border-image: linear-gradient(
@@ -179,13 +184,10 @@ form {
   color: rgba(66, 164, 255, 1);
   opacity: 0.8;
   font-weight: normal;
-  font-size: 1.25rem;
+  font-size: 1rem;
   text-align: left;
 }
 
-.details-container {
-  padding-right: 5px;
-}
 .main-temp-container,
 .card-text {
   background: linear-gradient(
@@ -207,8 +209,7 @@ form {
 }
 
 .card-container {
-  margin: 0 15px 0 5px;
-  padding: 10px 0px;
+  padding: 10px 10px;
 }
 .weather-card {
   background-color: #e2faff;
