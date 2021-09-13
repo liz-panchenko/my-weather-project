@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌏Weather app</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/d8c7fcbb48.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="main-container">
+        <div class="row">
+          <div class="col-6 d-flex">
+            <form id="search-city">
+              <input
+                type="search"
+                class="search-input"
+                id="search-input"
+                autocomplete="off"
+                placeholder="Search a city"
+              />
+              <button class="search-button" type="submit">
+                <span class="search-button-text">Search</span>
+                <i class="search-icon fas fa-search"></i>
+              </button>
+            </form>
+          </div>
+          <div class="col-6">
+            <button
+              type="button"
+              class="current-location-button"
+              id="current-location-button"
+            >
+              <img src="images/location.png" alt="location-icon" />
+              <span class="current-location-button-text">Current location</span>
+            </button>
+            <button
+              type="button"
+              id="temperature-unit-button"
+              class="temperature-unit-button"
+            >
+              °F
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-md-6 col-xl-7 mt-5">
+            <h1 id="main-city">London, GB</h1>
+            <div class="row justify-content-center">
+              <div class="col-6 justify-content-center">
+                <img src="images/cloudy1.png" class="main-icon" alt="cloudy" />
+              </div>
+              <h2 class="col-6 main-temp-container">
+                <div><span class="cTemp">16</span>°C</div>
+                <div class="weather-description" id="weather-description">
+                  Clouds
+                </div>
+              </h2>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-md-6 col-xl-5 mt-5 container-radius">
+            <div class="row date-details-container">
+              <div class="col-xs-12 col-sm-6 date-container">
+                <ul>
+                  <li>Currently</li>
+                  <li id="current-date">Wed Aug 9</li>
+                  <li id="current-time">11:23</li>
+                </ul>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 details-container">
+                <ul>
+                  <li id="precipitation-info">Precipitation: 17%</li>
+                  <li id="humidity-info">Humidity: 70%</li>
+                  <li id="wind-speed-info">Wind: 5mph</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-container mt-5">
+          <div class="row justify-content-center px-3">
+            <div class="col-sm-4 col-md my-2">
+              <div class="card text-center weather-card">
+                <div class="card-body">
+                  <div class="card-title">Mon</div>
+                  <img src="images/clouds.png" class="card-img" alt="clouds" />
+                  <!-- <i class="card-title fas fa-cloud"></i> -->
+                  <p class="card-text"><span class="daily-temp">15</span>°C</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 col-md my-2">
+              <div class="card text-center weather-card">
+                <div class="card-body">
+                  <div class="card-title">Tue</div>
+                  <img src="images/clouds.png" class="card-img" alt="clouds" />
+                  <!-- <i class="card-title fas fa-cloud"></i> -->
+                  <p class="card-text"><span class="daily-temp">14</span>°C</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 col-md my-2">
+              <div class="card text-center weather-card">
+                <div class="card-body">
+                  <div class="card-title">Wed</div>
+                  <img src="images/sun.png" class="card-img" alt="sun" />
+                  <!-- <i class="card-image fas fa-sun"></i> -->
+                  <p class="card-text"><span class="daily-temp">17</span>°C</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 col-md my-2">
+              <div class="card text-center weather-card">
+                <div class="card-body">
+                  <div class="card-title">Thu</div>
+                  <img src="images/rain.png" class="card-img" alt="rain" />
+                  <!-- <i class="card-title fas fa-cloud-sun-rain"></i> -->
+                  <p class="card-text"><span class="daily-temp">17</span>°C</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 col-md my-2">
+              <div class="card text-center weather-card">
+                <div class="card-body">
+                  <div class="card-title">Fri</div>
+                  <img src="images/windy.png" class="card-img" alt="wind" />
+                  <!-- <i class="card-title fas fa-wind"></i> -->
+                  <p class="card-text"><span class="daily-temp">16</span>°C</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="src/script.js"></script>
+  </body>
+</html>
