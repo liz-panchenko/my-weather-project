@@ -43,6 +43,7 @@ body {
   border-radius: 4px;
   margin: 15px auto;
   padding: 10px;
+  padding-bottom: 30px;
 }
 
 h1 {
@@ -245,4 +246,23 @@ form {
 .daily-temp {
   color: #42a4ff;
   font-size: 1.3rem;
+}
+
+footer {
+  display: block;
+  margin: 0 auto;
+  padding: 25px;
+  text-align: center;
+  font-size: x-small;
+  /* color: #bab1ff; */
+  color: #b7dcff;
+  height: 50px;
+  margin-top: -50px;
+}
+
+footer > a,
+footer > .codder-name {
+  color: #42a4ff;
+  opacity: 0.7;
+  text-decoration: none;
 }
