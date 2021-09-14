@@ -132,17 +132,30 @@ function convertTemperatureFtoC() {
   return cTemp;
 }
 
+// function changeHeaderCtoF() {
+//   let fTemp = convertTemperatureCtoF();
+//   let h2 = document.querySelector("h2");
+//   h2.innerHTML = `<span class = "fTemp"> ${fTemp} </span> °F`;
+//   convertTemperatureButton.innerHTML = "°C";
+// }
+// function changeHeaderFtoC() {
+//   let cTemp = convertTemperatureFtoC();
+//   let h2 = document.querySelector("h2");
+//   h2.innerHTML = `<span class = "cTemp"> ${cTemp} </span> °C`;
+//   convertTemperatureButton.innerHTML = "°F";
+// }
+
 function changeHeaderCtoF() {
   let fTemp = convertTemperatureCtoF();
-  let h2 = document.querySelector("h2");
-  h2.innerHTML = `<span class = "fTemp"> ${fTemp} </span> °F`;
+  let mainCityTemp = document.getElementById("main-city-temp");
+  mainCityTemp.innerHTML = `<span class = "fTemp"> ${fTemp} </span> °F`;
   convertTemperatureButton.innerHTML = "°C";
 }
 
 function changeHeaderFtoC() {
   let cTemp = convertTemperatureFtoC();
-  let h2 = document.querySelector("h2");
-  h2.innerHTML = `<span class = "cTemp"> ${cTemp} </span> °C`;
+  let mainCityTemp = document.getElementById("main-city-temp");
+  mainCityTemp.innerHTML = `<span class = "cTemp"> ${cTemp} </span> °C`;
   convertTemperatureButton.innerHTML = "°F";
 }
 
