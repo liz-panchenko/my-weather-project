@@ -73,6 +73,15 @@ function infoUpdate(response) {
   changeWeatherDescription(response);
   changeHumidityInfo(response);
   changeWindSpeedInfo(response);
+  changeLastUpdate(response);
+}
+
+function changeLastUpdate(response) {
+  let now = new Date(response.data.dt * 1000);
+  let currentDate = document.getElementById("current-date");
+  let currentTime = document.getElementById("current-time");
+  currentDate.innerHTML = formattedDate(now);
+  currentTime.innerHTML = formattedTime(now);
 }
 
 function changeMainCity(response) {
