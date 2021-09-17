@@ -70,10 +70,7 @@ function defineWeatehrIcon(response) {
     "50d": "images/50.mist.png",
     "50n": "images/50n.mist.png",
   };
-
-  if (iconObject[apiIcon]) {
-    return iconObject[apiIcon];
-  }
+  return iconObject[apiIcon];
 }
 
 //Onload city weather
@@ -158,16 +155,30 @@ searchForm.addEventListener("submit", changeData);
 function tempCheck() {
   if (document.querySelector(".cTemp")) {
     changeHeaderCtoF();
+    changeCardTempCtoF();
   } else {
     changeHeaderFtoC();
+    changeCardTempFtoC();
   }
 }
 
+function changeHeaderCtoF() {
+  let fTemp = convertTemperatureCtoF();
+  let mainCityTemp = document.getElementById("main-city-temp");
+  mainCityTemp.innerHTML = `<span class="fTemp"> ${fTemp} </span> °F`;
+  convertTemperatureButton.innerHTML = "°C";
+}
 function convertTemperatureCtoF() {
   let cTempString = document.querySelector(".cTemp").innerText;
   let cTemp = parseInt(cTempString, 10);
   let fTemp = Math.round((cTemp * 9) / 5 + 32);
   return fTemp;
+}
+function changeHeaderFtoC() {
+  let cTemp = convertTemperatureFtoC();
+  let mainCityTemp = document.getElementById("main-city-temp");
+  mainCityTemp.innerHTML = `<span class="cTemp"> ${cTemp} </span> °C`;
+  convertTemperatureButton.innerHTML = "°F";
 }
 
 function convertTemperatureFtoC() {
@@ -177,31 +188,32 @@ function convertTemperatureFtoC() {
   return cTemp;
 }
 
-// function changeHeaderCtoF() {
-//   let fTemp = convertTemperatureCtoF();
-//   let h2 = document.querySelector("h2");
-//   h2.innerHTML = `<span class = "fTemp"> ${fTemp} </span> °F`;
-//   convertTemperatureButton.innerHTML = "°C";
-// }
-// function changeHeaderFtoC() {
-//   let cTemp = convertTemperatureFtoC();
-//   let h2 = document.querySelector("h2");
-//   h2.innerHTML = `<span class = "cTemp"> ${cTemp} </span> °C`;
-//   convertTemperatureButton.innerHTML = "°F";
-// }
-
-function changeHeaderCtoF() {
-  let fTemp = convertTemperatureCtoF();
-  let mainCityTemp = document.getElementById("main-city-temp");
-  mainCityTemp.innerHTML = `<span class = "fTemp"> ${fTemp} </span> °F`;
-  convertTemperatureButton.innerHTML = "°C";
+function changeCardTempCtoF() {
+  let cards = document.querySelectorAll(".card-text");
+  cards.forEach(function (card) {
+    let tempF = getCardCtoF(card);
+    card.innerHTML = `<span class="daily-temp card-fTemp"> ${tempF} </span> °F`;
+  });
 }
 
-function changeHeaderFtoC() {
-  let cTemp = convertTemperatureFtoC();
-  let mainCityTemp = document.getElementById("main-city-temp");
-  mainCityTemp.innerHTML = `<span class = "cTemp"> ${cTemp} </span> °C`;
-  convertTemperatureButton.innerHTML = "°F";
+function getCardCtoF(card) {
+  let cTempString = card.firstElementChild.innerText;
+  let cTemp = parseInt(cTempString, 10);
+  return Math.round((cTemp * 9) / 5 + 32);
+}
+
+function changeCardTempFtoC() {
+  let cards = document.querySelectorAll(".card-text");
+  cards.forEach(function (card) {
+    let tempC = getCardFtoC(card);
+    card.innerHTML = `<span class="daily-temp card-cTemp"> ${tempC} </span> °C`;
+  });
+}
+
+function getCardFtoC(card) {
+  let fTempString = card.firstElementChild.innerText;
+  let fTemp = parseInt(fTempString, 10);
+  return Math.round(((fTemp - 32) * 5) / 9);
 }
 
 let convertTemperatureButton = document.getElementById(
