@@ -47,6 +47,35 @@ currentDate.innerHTML = formattedDate(now);
 let currentTime = document.getElementById("current-time");
 currentTime.innerHTML = formattedTime(now);
 
+// Custom Weather Icons
+function defineWeatehrIcon(response) {
+  let apiIcon = response.data.weather[0].icon;
+  let iconObject = {
+    "01d": "images/1.clear_sky.png",
+    "01n": "images/1n.clear_sky.png",
+    "02d": "images/2.few_clouds.png",
+    "02n": "images/2n.few_clouds.png",
+    "03d": "images/3.4.clouds.png",
+    "03n": "images/3.4.clouds.png",
+    "04d": "images/3.4.clouds.png",
+    "04n": "images/3.4.clouds.png",
+    "09d": "images/09.10.rain.png",
+    "09n": "images/09.10.rain.png",
+    "10d": "images/09.10.rain.png",
+    "10n": "images/09.10.rain.png",
+    "11d": "images/11.thunderstorm.png",
+    "11n": "images/11.thunderstorm.png",
+    "13d": "images/13.snow.png",
+    "13n": "images/13.snow.png",
+    "50d": "images/50.mist.png",
+    "50n": "images/50n.mist.png",
+  };
+
+  if (iconObject[apiIcon]) {
+    return iconObject[apiIcon];
+  }
+}
+
 //Onload city weather
 window.addEventListener("load", (event) => {
   returnWeatherAPI("London");
@@ -68,12 +97,14 @@ function returnWeatherAPI(searchedCity) {
 }
 
 function infoUpdate(response) {
+  console.log(response);
   changeMainCity(response);
   changeMainTemperature(response);
   changeWeatherDescription(response);
   changeHumidityInfo(response);
   changeWindSpeedInfo(response);
   changeLastUpdate(response);
+  changeMainWeatherIcon(response);
 }
 
 function changeLastUpdate(response) {
@@ -94,6 +125,12 @@ function changeMainTemperature(response) {
   let temp = Math.round(response.data.main.temp);
   let mainTemp = document.querySelector(".cTemp");
   mainTemp.innerHTML = `${temp}`;
+}
+
+function changeMainWeatherIcon(response) {
+  let mainIcon = document.getElementById("main-icon");
+  mainIcon.setAttribute("src", defineWeatehrIcon(response));
+  mainIcon.setAttribute("alt", response.data.weather[0].main);
 }
 
 function changeWeatherDescription(response) {
