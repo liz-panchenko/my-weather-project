@@ -97,7 +97,6 @@ function returnWeatherAPI(searchedCity) {
 }
 
 function infoUpdate(response) {
-  console.log(response);
   changeMainCity(response);
   changeMainTemperature(response);
   changeWeatherDescription(response);
