@@ -151,7 +151,7 @@ function changeWindSpeedInfo(response) {
   windSpeedInfoElement.innerHTML = `Wind: ${windSpeedInfo}km/h`;
 }
 
-let searchForm = document.getElementById("search-city");
+let searchForm = document.getElementById("search-form");
 searchForm.addEventListener("submit", changeData);
 
 ////Temp C/F conversion
