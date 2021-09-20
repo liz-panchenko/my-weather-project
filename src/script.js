@@ -239,3 +239,35 @@ function getCurrentLocation() {
 
 let currentLocationButton = document.getElementById("current-location-button");
 currentLocationButton.addEventListener("click", getCurrentLocation);
+
+// adding Forecast Cards (instead of index.html)
+function addForecastCards() {
+  let forecastCardsElement = document.getElementById("forecast-cards");
+  let days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+  let cardHTML = `<div class="row justify-content-center px-3">`;
+  days.forEach(function (day) {
+    cardHTML =
+      cardHTML +
+      `
+      <div class="col-sm-4 col-md my-2">
+        <div class="card text-center weather-card">
+          <div class="card-body">
+            <div class="card-title">${day}</div>
+            <img
+              src="images/3.4.clouds.png"
+              class="card-img"
+              alt="clouds"
+            />
+            <p class="card-text">
+              <span class="daily-temp card-CTemp">15</span>°C
+            </p>
+          </div>
+        </div>
+      </div>
+  `;
+  });
+  cardHTML = cardHTML + `</div>`;
+  forecastCardsElement.innerHTML = cardHTML;
+}
+
+addForecastCards();
