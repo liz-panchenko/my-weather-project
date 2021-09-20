@@ -48,28 +48,32 @@ let currentTime = document.getElementById("current-time");
 currentTime.innerHTML = formattedTime(now);
 
 // Custom Weather Icons
-function defineWeatehrIcon(response) {
+let iconObject = {
+  "01d": "images/1.clear_sky.png",
+  "01n": "images/1n.clear_sky.png",
+  "02d": "images/2.few_clouds.png",
+  "02n": "images/2n.few_clouds.png",
+  "03d": "images/3.4.clouds.png",
+  "03n": "images/3.4.clouds.png",
+  "04d": "images/3.4.clouds.png",
+  "04n": "images/3.4.clouds.png",
+  "09d": "images/09.10.rain.png",
+  "09n": "images/09.10.rain.png",
+  "10d": "images/09.10.rain.png",
+  "10n": "images/09.10.rain.png",
+  "11d": "images/11.thunderstorm.png",
+  "11n": "images/11.thunderstorm.png",
+  "13d": "images/13.snow.png",
+  "13n": "images/13.snow.png",
+  "50d": "images/50.mist.png",
+  "50n": "images/50n.mist.png",
+};
+
+function defineMainWeatehrIcon(response) {
   let apiIcon = response.data.weather[0].icon;
-  let iconObject = {
-    "01d": "images/1.clear_sky.png",
-    "01n": "images/1n.clear_sky.png",
-    "02d": "images/2.few_clouds.png",
-    "02n": "images/2n.few_clouds.png",
-    "03d": "images/3.4.clouds.png",
-    "03n": "images/3.4.clouds.png",
-    "04d": "images/3.4.clouds.png",
-    "04n": "images/3.4.clouds.png",
-    "09d": "images/09.10.rain.png",
-    "09n": "images/09.10.rain.png",
-    "10d": "images/09.10.rain.png",
-    "10n": "images/09.10.rain.png",
-    "11d": "images/11.thunderstorm.png",
-    "11n": "images/11.thunderstorm.png",
-    "13d": "images/13.snow.png",
-    "13n": "images/13.snow.png",
-    "50d": "images/50.mist.png",
-    "50n": "images/50n.mist.png",
-  };
+  return iconObject[apiIcon];
+}
+function cardIcon(apiIcon) {
   return iconObject[apiIcon];
 }
 
@@ -101,6 +105,7 @@ function infoUpdate(response) {
   changeWindSpeedInfo(response);
   changeLastUpdate(response);
   changeMainWeatherIcon(response);
+  getForecast(response.data.coord);
 }
 
 function changeLastUpdate(response) {
@@ -125,7 +130,7 @@ function changeMainTemperature(response) {
 
 function changeMainWeatherIcon(response) {
   let mainIcon = document.getElementById("main-icon");
-  mainIcon.setAttribute("src", defineWeatehrIcon(response));
+  mainIcon.setAttribute("src", defineMainWeatehrIcon(response));
   mainIcon.setAttribute("alt", response.data.weather[0].main);
 }
 
@@ -224,13 +229,15 @@ convertTemperatureButton.addEventListener("click", tempCheck);
 // Current Geolocation
 function getCurrentGeoLocationWeather(position) {
   let lat = position.coords.latitude;
-  let long = position.coords.longitude;
+  let lon = position.coords.longitude;
   let apiKey = "a96f5721c6287ed7127e00501efd3d4f";
   let tempUnits = "metric";
 
-  let currentWeatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=${tempUnits}`;
+  let currentWeatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${tempUnits}`;
+  let forecastApiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,current,minutely,alerts&appid=${apiKey}&units=${tempUnits}`;
 
   axios.get(currentWeatherApiUrl).then(infoUpdate);
+  axios.get(forecastApiUrl).then(displayForecastCards);
 }
 
 function getCurrentLocation() {
@@ -241,25 +248,34 @@ let currentLocationButton = document.getElementById("current-location-button");
 currentLocationButton.addEventListener("click", getCurrentLocation);
 
 // adding Forecast Cards (instead of index.html)
-function addForecastCards() {
+function formattedCardDate(dailyForecast) {
+let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+let now = new Date(dailyForecast.dt * 1000);
+let dayIndex = now.getDay();
+return `${days[dayIndex]} `
+}
+
+function displayForecastCards(response) {
+  let forecast = response.data.daily.slice(1,6);
   let forecastCardsElement = document.getElementById("forecast-cards");
-  let days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
   let cardHTML = `<div class="row justify-content-center px-3">`;
-  days.forEach(function (day) {
+  forecast.forEach(function (dailyForecast) {
     cardHTML =
       cardHTML +
       `
       <div class="col-sm-4 col-md my-2">
         <div class="card text-center weather-card">
           <div class="card-body">
-            <div class="card-title">${day}</div>
+            <div class="card-title">${formattedCardDate(dailyForecast)}</div>
             <img
-              src="images/3.4.clouds.png"
+              src="${cardIcon(dailyForecast.weather[0].icon)}"
               class="card-img"
               alt="clouds"
             />
             <p class="card-text">
-              <span class="daily-temp card-CTemp">15</span>°C
+              <span class="daily-temp card-CTemp">${Math.round(
+                dailyForecast.temp.eve
+              )}</span>°C
             </p>
           </div>
         </div>
@@ -270,4 +286,26 @@ function addForecastCards() {
   forecastCardsElement.innerHTML = cardHTML;
 }
 
-addForecastCards();
+// function changeForecastCard(response) {
+//   console.log(response.data.daily)
+//   let cardsTempForecast = document.querySelectorAll(".card-text");
+//   cardsTempForecast.forEach(function (card) {
+//     let cTemp = Math.round(response.data.daily[0].temp.eve);
+//     card.innerHTML = `<span class="daily-temp card-cTemp"> ${cTemp} </span> °C`;
+//   });
+
+//   let now = new Date(response.data.daily[1].dt * 1000);
+//   let cardDate = document.querySelector(".card-title");
+//   // let currentTime = document.getElementById("current-time");
+//   // currentTime.innerHTML = formattedTime(now);
+// }
+
+function getForecast(coordinates) {
+  let lat = coordinates.lat;
+  let lon = coordinates.lon;
+  let apiKey = "a96f5721c6287ed7127e00501efd3d4f";
+  let tempUnits = "metric";
+  let forecastApiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,current,minutely,alerts&appid=${apiKey}&units=${tempUnits}`;
+
+  axios.get(forecastApiUrl).then(displayForecastCards);
+}
