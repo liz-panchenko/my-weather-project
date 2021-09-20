@@ -249,14 +249,14 @@ currentLocationButton.addEventListener("click", getCurrentLocation);
 
 // adding Forecast Cards (instead of index.html)
 function formattedCardDate(dailyForecast) {
-let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-let now = new Date(dailyForecast.dt * 1000);
-let dayIndex = now.getDay();
-return `${days[dayIndex]} `
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  let now = new Date(dailyForecast.dt * 1000);
+  let dayIndex = now.getDay();
+  return `${days[dayIndex]} `;
 }
 
 function displayForecastCards(response) {
-  let forecast = response.data.daily.slice(1,6);
+  let forecast = response.data.daily.slice(1, 6);
   let forecastCardsElement = document.getElementById("forecast-cards");
   let cardHTML = `<div class="row justify-content-center px-3">`;
   forecast.forEach(function (dailyForecast) {
