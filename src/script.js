@@ -160,9 +160,11 @@ searchForm.addEventListener("submit", changeData);
 function tempCheck() {
   if (document.querySelector(".cTemp")) {
     changeHeaderCtoF();
+    changeFeelsLikeCtoF();
     changeCardTempCtoF();
   } else {
     changeHeaderFtoC();
+    changeFeelsLikeFtoC();
     changeCardTempFtoC();
   }
 }
@@ -179,6 +181,7 @@ function convertTemperatureCtoF() {
   let fTemp = Math.round((cTemp * 9) / 5 + 32);
   return fTemp;
 }
+
 function changeHeaderFtoC() {
   let cTemp = convertTemperatureFtoC();
   let mainCityTemp = document.getElementById("main-city-temp");
@@ -191,6 +194,26 @@ function convertTemperatureFtoC() {
   let fTemp = parseInt(fTempString, 10);
   let cTemp = Math.round(((fTemp - 32) * 5) / 9);
   return cTemp;
+}
+
+function changeFeelsLikeCtoF() {
+  let feelsLikeCTemp = parseInt(
+    document.querySelector(".feelsLikecTemp").innerHTML,
+    10
+  );
+  let fahrenheitT = Math.round((feelsLikeCTemp * 9) / 5 + 32);
+  let feelsLikeElement = document.getElementById("feels-like-info");
+  feelsLikeElement.innerHTML = `Feels like:<span class="feelsLikefTemp"> ${fahrenheitT}</span>°F`;
+}
+
+function changeFeelsLikeFtoC() {
+  let feelsLikeFTemp = parseInt(
+    document.querySelector(".feelsLikefTemp").innerHTML,
+    10
+  );
+  let celsiusT = Math.round(((feelsLikeFTemp - 32) * 5) / 9);
+  let feelsLikeElement = document.getElementById("feels-like-info");
+  feelsLikeElement.innerHTML = `Feels like:<span class="feelsLikecTemp"> ${celsiusT}</span>°C`;
 }
 
 function changeCardTempCtoF() {
@@ -247,6 +270,12 @@ function getCurrentLocation() {
 let currentLocationButton = document.getElementById("current-location-button");
 currentLocationButton.addEventListener("click", getCurrentLocation);
 
+// Forecast Part
+function displayFeelsLikeInfo(response) {
+  let feelsLikeElement = document.getElementById("feels-like-info");
+  let feelsLikeCTemp = Math.round(response.data.daily[0].feels_like.eve);
+  feelsLikeElement.innerHTML = `Feels like:<span class="feelsLikecTemp"> ${feelsLikeCTemp}</span>°C`;
+}
 // adding Forecast Cards (instead of index.html)
 function formattedCardDate(dailyForecast) {
   let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -286,19 +315,10 @@ function displayForecastCards(response) {
   forecastCardsElement.innerHTML = cardHTML;
 }
 
-// function changeForecastCard(response) {
-//   console.log(response.data.daily)
-//   let cardsTempForecast = document.querySelectorAll(".card-text");
-//   cardsTempForecast.forEach(function (card) {
-//     let cTemp = Math.round(response.data.daily[0].temp.eve);
-//     card.innerHTML = `<span class="daily-temp card-cTemp"> ${cTemp} </span> °C`;
-//   });
-
-//   let now = new Date(response.data.daily[1].dt * 1000);
-//   let cardDate = document.querySelector(".card-title");
-//   // let currentTime = document.getElementById("current-time");
-//   // currentTime.innerHTML = formattedTime(now);
-// }
+function displayForecastInfo(response) {
+  displayForecastCards(response);
+  displayFeelsLikeInfo(response);
+}
 
 function getForecast(coordinates) {
   let lat = coordinates.lat;
@@ -307,5 +327,5 @@ function getForecast(coordinates) {
   let tempUnits = "metric";
   let forecastApiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,current,minutely,alerts&appid=${apiKey}&units=${tempUnits}`;
 
-  axios.get(forecastApiUrl).then(displayForecastCards);
+  axios.get(forecastApiUrl).then(displayForecastInfo);
 }
