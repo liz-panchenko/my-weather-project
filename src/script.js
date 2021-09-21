@@ -124,8 +124,8 @@ function changeMainCity(response) {
 
 function changeMainTemperature(response) {
   let temp = Math.round(response.data.main.temp);
-  let mainTemp = document.querySelector(".cTemp");
-  mainTemp.innerHTML = `${temp}`;
+  let mainTemp = document.querySelector("#main-city-temp");
+  mainTemp.innerHTML = `<span class="cTemp">${temp}</span>°C</div>`;
 }
 
 function changeMainWeatherIcon(response) {
